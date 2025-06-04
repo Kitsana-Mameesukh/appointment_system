@@ -1,0 +1,27 @@
+services:
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    command: tail -f /dev/null
+    env_file:
+      - .env
+    volumes:
+      - .:/opt/app
+    networks:
+      - hospital-network
+
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    networks:
+      - hospital-network
+
+networks:
+  hospital-network:
+    driver: bridge
